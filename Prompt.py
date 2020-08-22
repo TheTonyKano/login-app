@@ -2,10 +2,11 @@
 #The goals is to have a way for the user to type in their username and then password.
 #If the user does not have an account. Add an option to create an account and ask for their firstname, lastname, username, password, verification password, and email address.
 
-#Import Section
-#import pickle
-#import getpass, sys
+
+
+#Imports
 import time
+
 
 
 #Variables
@@ -19,30 +20,47 @@ password_output = ""
 firstname_output = ""
 lastname_output = ""
 email_address_output = ""
+
+
+
 #Add to dictionary
 def add_username_to_db():
     global username_output
     username_db[username_output] = {}
+    
+    
 def add_password_to_db():
     global password_output
     username_db[username_output]['Password'] = password_output
+    
+    
 def add_firstname_to_db():
     global firstname_output
     username_db[username_output]['FirstName'] = firstname_output
+    
+    
 def add_lastname_to_db():
     global lastname_output
     username_db[username_output]['LastName'] = lastname_output
+    
+    
 def add_email_to_db():
     global email_address_output
     username_db[username_output]['Email_Address'] = email_address_output
+    
+    
 #Output Dictionary to file
 def output_username_db_to_file():
     print(username_db)
+    
+    
 #Retrieve Dictionary from file
 def retrieve_username_db_from_file():
     print(username_db)
+    
 
 #Main Menu and Selection Menu
+
 def main_menu():
     #To reference to initiate restart of script
     while True:
@@ -64,6 +82,9 @@ def main_menu():
                     selection_menu_incorrect()
                     continue
             break
+
+            
+            
 def selection_menu():
     global main_input
     print("---------------------------------------------------------")
@@ -73,6 +94,8 @@ def selection_menu():
     print("---------------------------------------------------------")
     main_input = input("Please type one of the numbers from above to continue:")
     return main_input
+
+
 def selection_menu_incorrect():
     global main_input
     print("---------------------------------------------------------")
@@ -83,10 +106,17 @@ def selection_menu_incorrect():
     print("---------------------------------------------------------")
     main_input = input("Type Create or Login: ")
     return main_input
+
+
 #Login Menu Selection Menu
+
 def login_menu():
    print("Please follow the prompt below to login to the application.")
+
+
+
 #Create account functions
+
 def create_account():
     create_username_section()
     create_password_section()
@@ -95,6 +125,8 @@ def create_account():
     enter_email_address()
     print("Your account has been created.")
     main_menu()
+    
+    
 def create_username_section():
     while True:
         # Queue up usernames in directory for reference
@@ -109,6 +141,8 @@ def create_username_section():
             print("Username is available. Please create a password to use.")
             add_username_to_db()
             return username_output
+        
+        
 def create_password_section():
     # Create Password
     create_password = input("Enter password: ")
@@ -129,6 +163,9 @@ def create_password_section():
             v_password = input("Enter password to verify: ")
             verify_password = v_password
         continue
+        
+        
+       
 def enter_email_address():
     global email_address_output
     email_address = input("Please enter your email address: ")
@@ -140,6 +177,8 @@ def enter_email_address():
     else:
         print("E-mail Addresses are not matching. Please re-enter your email address.")
         enter_email_address()
+        
+        
 def enter_first_name():
     global firstname_output
     firstname_input = input("Please type your First Name:")
@@ -147,6 +186,8 @@ def enter_first_name():
     add_firstname_to_db()
     #print(firstname_output)
     return firstname_output
+
+
 def enter_last_name():
     global lastname_output
     lastname_input = input("Please type your Last Name:")
@@ -154,7 +195,11 @@ def enter_last_name():
     add_lastname_to_db()
     #print(lastname_output)
     return lastname_output
+
+
+
 # Login Functions
+
 def db_username_check():
     login_menu()
     global username
@@ -168,6 +213,8 @@ def db_username_check():
     else:
         print("The username you have entered is incorrect")
         db_username_check()
+        
+        
 def db_password_check():
     login_menu()
     while True:
@@ -190,9 +237,12 @@ def db_password_check():
             else:
                 print("")
             continue
+
+
+
 def logged_in():
     print("You have logged in")
-    return None
+
 
 
 #----------------------------------------
