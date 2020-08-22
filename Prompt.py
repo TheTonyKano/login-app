@@ -5,11 +5,13 @@
 
 
 #Imports
+
 import time
 
 
 
 #Variables
+
 username_db = {}
 main_input = ""
 username = ""
@@ -24,6 +26,7 @@ email_address_output = ""
 
 
 #Add to dictionary
+
 def add_username_to_db():
     global username_output
     username_db[username_output] = {}
