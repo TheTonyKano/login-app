@@ -51,12 +51,12 @@ def add_email_to_db():
     global email_address_output
     username_db[username_output]['Email_Address'] = email_address_output
     
-    
+# Testing    
 #Output Dictionary to file
 def output_username_db_to_file():
     print(username_db)
     
-    
+# Testing
 #Retrieve Dictionary from file
 def retrieve_username_db_from_file():
     print(username_db)
