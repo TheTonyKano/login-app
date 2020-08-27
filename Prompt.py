@@ -1,101 +1,116 @@
-#This project is a basic login system for an application
-#The goals is to have a way for the user to type in their username and then password.
-#If the user does not have an account. Add an option to create an account and ask for their firstname, lastname, username, password, verification password, and email address.
+# This project is a basic login system for an application
+# The goals is to have a way for the user to type in their username and then password.
+# If the user does not have an account. Add an option to create an account and ask for their firstname, lastname,
+# username, password, verification password, and email address.
 
-
-
-#Imports
-
+# Import Section
+# import pickle
+# import getpass, sys
 import time
+# import csv
+import json
 
-
-
-#Variables
-
+# Variables
 username_db = {}
 main_input = ""
 username = ""
 username_output = ""
 password_count = 0
 password_attempts = 3
+password_timeout = 60
 password_output = ""
 firstname_output = ""
 lastname_output = ""
 email_address_output = ""
+main_menu_option_list = ("Create an Account", "Login with an Existing account", "Exit Main Menu")
+output_to_file = username_db
 
 
-
-#Add to dictionary
-
+# Add to dictionary
 def add_username_to_db():
     global username_output
     username_db[username_output] = {}
-    
-    
+
+
 def add_password_to_db():
     global password_output
     username_db[username_output]['Password'] = password_output
-    
-    
+
+
 def add_firstname_to_db():
     global firstname_output
     username_db[username_output]['FirstName'] = firstname_output
-    
-    
+
+
 def add_lastname_to_db():
     global lastname_output
     username_db[username_output]['LastName'] = lastname_output
-    
-    
+
+
 def add_email_to_db():
     global email_address_output
     username_db[username_output]['Email_Address'] = email_address_output
-    
-# Testing    
-#Output Dictionary to file
+
+
+# Output Dictionary to file
 def output_username_db_to_file():
-    print(username_db)
-    
-# Testing
-#Retrieve Dictionary from file
-def retrieve_username_db_from_file():
-    print(username_db)
-    
+    global username_db
+    with open('userDB.json', 'w') as temp_dict:
+        json.dump(username_db, temp_dict)
+        return username_db
 
-#Main Menu and Selection Menu
 
+# Retrieve Dictionary from file
+def load_userdb():
+    global username_db
+    with open('userDB.json', 'r') as temp_dict:
+        username_db = json.load(temp_dict)
+        return username_db
+
+
+def exit_application():
+    print("End of Script")
+
+
+# Main Menu and Selection Menu
 def main_menu():
-    #To reference to initiate restart of script
+    # To reference to initiate restart of script
     while True:
         selection_menu()
-        if main_input == "1" :
+        if main_input == "1":
             create_account()
-            continue
         elif main_input == "2":
             db_username_check()
-            break
+        elif main_input == "3":
+            exit_application()
         else:
             while True:
                 if main_input == "1":
                     create_account()
                 elif main_input == "2":
                     db_username_check()
-                    break
+                elif main_input == "3":
+                    exit_application()
                 else:
                     selection_menu_incorrect()
                     continue
             break
 
-            
-            
+
+def populate_menu(option):
+    print("\n")
+    for index, option in enumerate(option, 1):
+        print(f"{index} - {option}")
+    print("\n")
+
+
 def selection_menu():
     global main_input
     print("---------------------------------------------------------")
     print("Please choose from the selection below.")
-    print("1 - Create an Account")
-    print("2 - Login with an Existing Account.")
-    print("---------------------------------------------------------")
+    populate_menu(main_menu_option_list)
     main_input = input("Please type one of the numbers from above to continue:")
+    print("---------------------------------------------------------")
     return main_input
 
 
@@ -104,32 +119,30 @@ def selection_menu_incorrect():
     print("---------------------------------------------------------")
     print("Incorrect selection, please try again")
     print("Please choose from the selection below.")
-    print("1 - Create an Account")
-    print("2 - Login with an Existing Account.")
+    populate_menu(main_menu_option_list)
+    main_input = input("Please type one of the numbers from above to continue:")
     print("---------------------------------------------------------")
-    main_input = input("Type Create or Login: ")
     return main_input
 
 
-#Login Menu Selection Menu
-
+# Login Menu Selection Menu
 def login_menu():
-   print("Please follow the prompt below to login to the application.")
+    print("Please follow the prompt below to login to the application.")
 
 
-
-#Create account functions
-
+# Create account functions
 def create_account():
+    load_userdb()
     create_username_section()
     create_password_section()
     enter_first_name()
     enter_last_name()
     enter_email_address()
+    output_username_db_to_file()
     print("Your account has been created.")
     main_menu()
-    
-    
+
+
 def create_username_section():
     while True:
         # Queue up usernames in directory for reference
@@ -144,14 +157,15 @@ def create_username_section():
             print("Username is available. Please create a password to use.")
             add_username_to_db()
             return username_output
-        
-        
+
+
 def create_password_section():
     # Create Password
     create_password = input("Enter password: ")
     verify_password = input("Enter password to verify: ")
     while True:
-        # If the first password equals the second password display that the password matches then continue to the next part
+        # If the first password equals the second password display that the password matches then
+        # continue to the next part
         if create_password == verify_password:
             global password_output
             password_output = create_password
@@ -166,9 +180,8 @@ def create_password_section():
             v_password = input("Enter password to verify: ")
             verify_password = v_password
         continue
-        
-        
-       
+
+
 def enter_email_address():
     global email_address_output
     email_address = input("Please enter your email address: ")
@@ -180,14 +193,14 @@ def enter_email_address():
     else:
         print("E-mail Addresses are not matching. Please re-enter your email address.")
         enter_email_address()
-        
-        
+
+
 def enter_first_name():
     global firstname_output
     firstname_input = input("Please type your First Name:")
     firstname_output = firstname_input
     add_firstname_to_db()
-    #print(firstname_output)
+    # print(firstname_output)
     return firstname_output
 
 
@@ -196,14 +209,13 @@ def enter_last_name():
     lastname_input = input("Please type your Last Name:")
     lastname_output = lastname_input
     add_lastname_to_db()
-    #print(lastname_output)
+    # print(lastname_output)
     return lastname_output
 
 
-
 # Login Functions
-
 def db_username_check():
+    load_userdb()
     login_menu()
     global username
     username = str(input("Please enter your username: "))
@@ -215,9 +227,9 @@ def db_username_check():
         main_menu()
     else:
         print("The username you have entered is incorrect")
-        db_username_check()
-        
-        
+        main_menu()
+
+
 def db_password_check():
     login_menu()
     while True:
@@ -233,24 +245,24 @@ def db_password_check():
             print("Incorrect Password")
             global password_count
             password_count += 1
-            if password_count == password_attempts :
+            if password_count == password_attempts:
                 print("Too many attempts detected")
-                time.sleep(30)
+                time.sleep(password_timeout)
                 db_username_check()
             else:
                 print("")
             continue
 
 
-
 def logged_in():
     print("You have logged in")
+    return None
 
 
+# ----------------------------------------
+# Script Starts here
+# ----------------------------------------
 
-#----------------------------------------
-#Script Starts here
-#----------------------------------------
 main_menu()
 
-#User has access and now can begin to access other components of the application
+# User has access and now can begin to access other components of the application
