@@ -1,13 +1,4 @@
-# This project is a basic login system for an application
-# The goals is to have a way for the user to type in their username and then password.
-# If the user does not have an account. Add an option to create an account and ask for their firstname, lastname,
-# username, password, verification password, and email address.
-
-# Import Section
-# import pickle
-# import getpass, sys
 import time
-# import csv
 import json
 
 # Variables
