@@ -1,5 +1,6 @@
 import time
 import json
+import pathlib
 
 # Variables
 username_db = {}
@@ -52,8 +53,21 @@ def output_username_db_to_file():
 
 
 # Retrieve Dictionary from file
+def check_db_file():
+    file_path = pathlib.Path("userDB.json")
+    while True:
+        if file_path.exists():
+            break
+        else:
+            blank_dict = {}
+            with open('userDB.json', 'w') as create_file:
+                json.dump(blank_dict, create_file)
+                break
+
+
 def load_userdb():
     global username_db
+    check_db_file()
     with open('userDB.json', 'r') as temp_dict:
         username_db = json.load(temp_dict)
         return username_db
